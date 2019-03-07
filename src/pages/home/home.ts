@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import {PaginaUnoPage} from '../pagina-uno/pagina-uno'
-import {FormBuilder, FormGroup, Validators} from '@angular/forms'
+import { NavController, ToastController } from 'ionic-angular';
+import { PaginaUnoPage } from '../pagina-uno/pagina-uno'
+import { Network } from '@ionic-native/network';
 
 @Component({
   selector: 'page-home',
@@ -9,31 +9,23 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 })
 export class HomePage {
 
-  myForm: FormGroup;
-
-  constructor(public navCtrl: NavController, public formBuilder: FormBuilder) {
-    this.myForm = this.createMyForm();
+  constructor(public navCtrl: NavController, private toast: ToastController, private network: Network) {
   }
 
-  irAPaginaUno(){
-    this.navCtrl.push(PaginaUnoPage);
+  displayNetworkOffLine() {
+    this.toast.create({
+      message: `No hay conexion a internet.`,
+      duration: 3000,
+    }).present();
   }
 
-  private createMyForm(){
-    return this.formBuilder.group({
-      name: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      dateBirth: ['', Validators.required],
-      passwordRetry: this.formBuilder.group({
-        password: ['', Validators.required],
-        passwordConfirmation: ['', Validators.required]
-      }),
-      gender: ['', Validators.required],
-    });
-  }
+  irAPaginaUno() {
 
-  saveData(){
-    console.log(this.myForm.value);
+    if (this.network.type !== this.network.Connection.NONE) {
+      this.navCtrl.push(PaginaUnoPage);
+    } else {
+      this.displayNetworkOffLine();
+    }
+
   }
 }

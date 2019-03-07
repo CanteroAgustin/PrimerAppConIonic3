@@ -10,6 +10,8 @@ import { HomePage } from '../pages/home/home';
 import { PaginaUnoPage } from '../pages/pagina-uno/pagina-uno';
 import { PaginaDosPage } from '../pages/pagina-dos/pagina-dos';
 import { UserServiceProvider } from '../providers/user-service/user-service';
+import { NetworkProvider } from '../providers/network/network';
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserServiceProvider
+    UserServiceProvider,
+    NetworkProvider,
+    Network
   ]
 })
 export class AppModule {}
