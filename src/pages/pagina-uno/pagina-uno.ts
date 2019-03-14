@@ -18,8 +18,10 @@ import {PaginaDosPage} from '../pagina-dos/pagina-dos'
 export class PaginaUnoPage {
 
   users: any[] = [];
-  
+  usuario:string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserServiceProvider) {
+    this.usuario = navParams.get('user');
   }
 
   ionViewDidLoad(){

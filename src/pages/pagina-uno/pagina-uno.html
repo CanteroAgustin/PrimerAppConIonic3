@@ -12,6 +12,7 @@
 
 <ion-content padding>
   <h1>Listado de Usuarios</h1>
+  <p>"Bienvenido {{ usuario }} !!!"</p>
   <ion-list>
     <button ion-item *ngFor="let user of users" (click)="showData(user)">
       <ion-avatar item-start>

@@ -12,6 +12,7 @@ import { PaginaDosPage } from '../pages/pagina-dos/pagina-dos';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { NetworkProvider } from '../providers/network/network';
 import { Network } from '@ionic-native/network';
+import { ExtranetServiceProvider } from '../providers/extranet-service/extranet-service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { Network } from '@ionic-native/network';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -38,7 +39,8 @@ import { Network } from '@ionic-native/network';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserServiceProvider,
     NetworkProvider,
-    Network
+    Network,
+    ExtranetServiceProvider,
   ]
 })
 export class AppModule {}
