@@ -52,7 +52,6 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
@@ -61,7 +60,8 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-advanced-http": {}
+      "cordova-plugin-advanced-http": {},
+      "cordova-plugin-whitelist": {}
     },
     "platforms": [
       "android"
