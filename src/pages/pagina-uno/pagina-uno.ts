@@ -10,7 +10,6 @@ import {PaginaDosPage} from '../pagina-dos/pagina-dos'
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-pagina-uno',
   templateUrl: 'pagina-uno.html',
@@ -19,9 +18,11 @@ export class PaginaUnoPage {
 
   users: any[] = [];
   usuario:string;
+  memento:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserServiceProvider) {
     this.usuario = navParams.get('user');
+    this.memento = navParams.get('memento');
   }
 
   ionViewDidLoad(){

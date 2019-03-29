@@ -7,6 +7,6 @@
   },
   "proxies": [{
     "path": "/OSDEExtranet",
-    "proxyUrl":"http://testextranet.osde.ar/OSDEExtranet"
+    "proxyUrl":"http://testextranet.osde.ar/OSDEExtranet" 
   }]
 }

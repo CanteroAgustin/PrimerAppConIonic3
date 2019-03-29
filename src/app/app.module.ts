@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpClientModule } from '@angular/common/http';
-
+import { HTTP } from '@ionic-native/http';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { PaginaUnoPage } from '../pages/pagina-uno/pagina-uno';
@@ -13,6 +13,7 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
 import { NetworkProvider } from '../providers/network/network';
 import { Network } from '@ionic-native/network';
 import { ExtranetServiceProvider } from '../providers/extranet-service/extranet-service';
+import { BackendServiceProvider } from '../providers/backend-service/backend-service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,8 @@ import { ExtranetServiceProvider } from '../providers/extranet-service/extranet-
     NetworkProvider,
     Network,
     ExtranetServiceProvider,
+    HTTP,
+    BackendServiceProvider
   ]
 })
 export class AppModule {}
