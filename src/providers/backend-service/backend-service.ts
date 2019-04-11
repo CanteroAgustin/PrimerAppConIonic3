@@ -11,25 +11,19 @@ import { HTTP } from '@ionic-native/http';
 @Injectable()
 export class BackendServiceProvider {
 
-  public urlService: string = "http://dlnxwas0.intranet.osde:10580/urgmobile/webservices/NotificacionesMobileServices";
+  public urlService: string = "http://172.70.70.5:8080/urgmobile/loginAction.do";
 
   constructor(public http: HttpClient, private http2: HTTP) {
     console.log('Hello BackendServiceProvider Provider');
   }
 
   loguearEnBackend(memento) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("login", this.urlService, false);
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == 4) {
-        if (xmlhttp.status == 200) {
-          console.log(xmlhttp.responseXML);
-        }
-      }
-    }
-    xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-        xmlhttp.send();
-    //return this.http.post(this.urlService, { memento: memento });
+    
+    var data = {
+      memento: memento
+    };
+    
+    return this.http2.post(this.urlService,data,{});
   }
 
 }

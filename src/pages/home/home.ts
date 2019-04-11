@@ -30,6 +30,10 @@ export class HomePage {
   public xmlItems: any;
   public usuario;
 
+  public FORBIDDEN_MESSAGE = "Actualmente usted no cuenta con los permisos necesarios para el uso de esta aplicaci\u00f3n. \r\nPor favor, ante cualquier inconveniente, comun\u00edquese al 0810-666-6733 (OSDE).";
+  public INVALID_USER_MESSAGE = "¡Hubo un problema con su identificaci\u00f3n! Verifique CUIT o contrase\u00f1a ingresado. \u0008 \u0008 \u0008 \u0008 Si el problema persiste comun\u00edquese al 0810-666-6733 (OSDE). Cod.eX003";
+  public SERVER_ERROR = "Hubo un problema al procesar la respuesta del servidor.";
+
   constructor(public navCtrl: NavController,
     private toast: ToastController,
     private network: Network,
@@ -67,12 +71,22 @@ export class HomePage {
     if (this.network.type !== this.network.Connection.NONE) {
       this.extranetService.doLogin2(datos).then(datos => {
         let data = this.processOsdeResponse(this.convertToJson(datos.data));
-        this.extractMemento(data).then(memento => {
-          this.soapService(memento);
+        this.extractMemento(data).then(data =>{
+          this.backendService.loguearEnBackend(data).then(datos => {
+            this.toast.create({
+              message: datos.error,
+              duration: 6000,
+            }).present();
+            console.log(datos);
+          }).catch(error => {
+            this.toast.create({
+              message: error.error,
+              duration: 6000,
+            }).present();
+            console.log("Error. " + error.error);
+          });
         });
-
-
-      })
+      });
     } else {
       this.displayNetworkOffLine();
     }
@@ -81,8 +95,9 @@ export class HomePage {
 
   public processOsdeResponse(respuesta) {
 
-    var redirect = false,
-      url = null;
+    let redirect = false;
+    let url = null;
+    let error = "";
 
     if (respuesta) {
 
@@ -92,28 +107,42 @@ export class HomePage {
       if ('forward' == flag) {
         redirect = true;
         url = value;
+      } else if ('alert' == flag) {
+        redirect = false;
+        url = value;
+        error = this.INVALID_USER_MESSAGE;
+      } else {
+        redirect = false;
+        url = value;
+        error = this.FORBIDDEN_MESSAGE;
       }
+    } else {
+      error = this.SERVER_ERROR;
     }
 
     return {
       redirect: redirect,
       url: url,
+      error: error
     };
   }
 
   extractMemento(datos) {
 
-    if (datos.redirect) {
-      var parser = new DOMParser();
+      if (datos.redirect) {
+        let parser = new DOMParser();
 
-      return this.extranetService.getMemento(datos.url).then(data => {
-        var html = parser.parseFromString(data.data, "text/html");
-
-        return (html.getElementById("Memento") as HTMLInputElement).value;
-
-      });
-
-    }
+        return this.extranetService.getMemento(datos.url).then(data => {
+          var html = parser.parseFromString(data.data, "text/html");
+          return (html.getElementById("Memento") as HTMLInputElement).value;
+        });
+      } else {
+        this.toast.create({
+          message: datos.error,
+          duration: 3000,
+        }).present();
+        return new Promise(datos.error);
+      }
   }
 
   public soapService(memento) {
